@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const port = 3001;
-const { getProducts } = require('../database/pg');
+const { getProducts, getProduct, getStyles, getRelated } = require('../database/pg');
 
 const app = express();
 app.use(express.json());
@@ -9,7 +9,10 @@ app.use(express.json());
 // console.log(req.query); //Access URL params
 // console.log(req.body.params); //Access body params
 
-//List Products - Params: page, count
+// List Products
+// GET /products 
+// Retrieves the list of products.
+// Params: page, count
 app.get('/products', (req, res) => {
   getProducts(parseInt(req.query.count), parseInt(req.query.page))
   .then(data => {
@@ -21,8 +24,48 @@ app.get('/products', (req, res) => {
   });
 });
 
+// Product Information
+// GET /products/:product_id
+// Returns all product level information for a specified product id.
+// Params: product_id
+app.get('/product', (req, res) => {
+  getStyles(parseInt(req.query.product_id))
+  .then(data => {
+    res.status(200).send(data.rows[0])
+  })
+  .catch((err) => {
+    res.sendStatus(404)
+  });
+});
 
+// Product Styles
+// GET /products/:product_id/styles
+// Returns the all styles available for the given product.
+// Params: product_id
+app.get('/styles', (req, res) => {
+  getStyles(parseInt(req.query.product_id))
+  .then(data => {
+    res.status(200).send(data.rows)
+  })
+  .catch((err) => {
+    res.sendStatus(404)
+  });
+});
 
+// Related Products
+// GET /products/:product_id/related
+// Returns the id's of products related to the product specified.
+// Params: product_id
+app.get('/related', (req, res) => {
+  getRelated(parseInt(req.query.product_id))
+  .then(data => {
+    let results = data.rows.map(item => item.related_product_id)
+    res.status(200).send(results)
+  })
+  .catch((err) => {
+    res.sendStatus(404)
+  });
+});
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
