@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const port = 3001;
 const { getProducts, getProduct, getStyles, getRelated } = require('../database/pg');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
@@ -16,13 +17,16 @@ app.use(express.json());
 app.get('/products', (req, res) => {
   getProducts(parseInt(req.query.count), parseInt(req.query.page))
   .then(data => {
-    let returnedData = {product_id: req.query.product_id, results: data}
-    res.status(200).send(returnedData)
+    // let returnedData = {product_id: req.query.product_id, results: data}
+    res.status(200).send(data.rows)
   })
   .catch((err) => {
     res.sendStatus(404)
   });
 });
+
+
+
 
 // Product Information
 // GET /products/:product_id

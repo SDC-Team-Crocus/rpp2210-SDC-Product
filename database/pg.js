@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 const { Pool } = require('pg');
 
 const login = {
-  user: "",
-  host: "localhost",
-  database: "postgres",
-  password: "",
-  port: 5432 //Default psql port
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT 
 }
 
 const pool = new Pool(login);
@@ -16,7 +18,7 @@ pool.connect();
 // GET /products 
 // Retrieves the list of products.
 // Params: page, count
-async function getProducts (count, page) {///////////why cannot set default here?
+async function getProducts(count, page) {///////////why cannot set default here?
   if (!count) {
     count = 5;
   }
@@ -35,7 +37,7 @@ async function getProducts (count, page) {///////////why cannot set default here
 // GET /products/:product_id
 // Returns all product level information for a specified product id.
 // Params: product_id
-async function getProduct (product_id) {
+async function getProduct(product_id) {
   
   const query = `SELECT * FROM products WHERE id = $1`;
   const productData = await pool.query(query, [product_id]);
@@ -47,7 +49,7 @@ async function getProduct (product_id) {
 // GET /products/:product_id/styles
 // Returns the all styles available for the given product.
 // Params: product_id
-async function getStyles (product_id) {
+async function getStyles(product_id) {
   const query = `SELECT * FROM styles WHERE productId = $1`;
   const productData = await pool.query(query, [product_id]);
   // console.log("stylesData===> ", productData);
