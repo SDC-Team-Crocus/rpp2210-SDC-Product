@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const port = 3001;
-const { getProducts, getProduct, getStyles, getRelated } = require('../database/pg');
+const { getProducts, getProduct, getStyles, getRelated } = require('../database/postgresDB');
 require('dotenv').config();
 
 const app = express();
