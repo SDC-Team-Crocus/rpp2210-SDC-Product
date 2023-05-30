@@ -7,6 +7,13 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
+
+console.log(__dirname);
+app.get('/loaderio-db2956abb38e620332896e15cb86d039', (req, res) => {
+  res.sendFile(path.join(__dirname, "/loaderio-db2956abb38e620332896e15cb86d039.txt"));
+  }
+)
+
 // console.log(req.query); //Access URL params
 // console.log(req.body.params); //Access body params
 
