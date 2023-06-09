@@ -12,7 +12,7 @@ app.use(cache);
 
 // Create a Redis client
 const client = redis.createClient({
-  host: "3.139.105.83",
+  host: "127.0.0.1",
   port: 6379,
 });
 
