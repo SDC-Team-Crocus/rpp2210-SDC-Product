@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "server-dev": "nodemon ./server/index.js", 
+    "server-dev": "nodemon ./server/index.js",
     "newrelic": "node -r newrelic ./server/index.js"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "notenv": "^2.0.3",
     "path": "^0.12.7",
     "pg": "^8.10.0",
+    "redis": "^4.6.7",
     "webpack": "^5.82.0"
   }
 }
