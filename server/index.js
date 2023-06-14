@@ -11,14 +11,19 @@ app.use(cache);
 
 
 // Create a Redis client
+
 const client = redis.createClient({
   host: "127.0.0.1",
   port: 6379,
+  // legacyMode: true,
 });
+
+
 
 function cache(req, res, next) {
   const key = "__express__" + req.originalUrl || req.url;
 
+  console.log(key);
   client.get(key).then(reply => {    
     if (reply) {
       res.send(JSON.parse(reply));
@@ -82,13 +87,18 @@ app.get('/products', (req, res) => {
 // });
 
 app.get('/product', (req, res) => {
-  // console.log("req.query.product_id===> ", req.query.product_id);
+  console.log("req.query.product_id===> ", req.query.product_id);
   getStyles(parseInt(req.query.product_id))
   .then(data => {
+    if (data && data.rows && data.rows.length > 0) {
     res.status(200).send(data.rows[0])
+    } else {
+      res.sendStatus(404);
+    }
   })
   .catch((err) => {
-    res.sendStatus(404)
+    // res.sendStatus(404)
+    res.status(200).send('empty');
   });
 });
 
