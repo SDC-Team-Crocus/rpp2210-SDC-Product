@@ -42,8 +42,8 @@ function cache(req, res, next) {
 
 
 // console.log(__dirname);
-app.get('/loaderio-cdd2290388a433d47e0813a650dea16c', cache, (req, res) => {
-  res.sendFile(path.join(__dirname, "/loaderio-cdd2290388a433d47e0813a650dea16c.txt"));
+app.get('/loaderio-a31dbcb988035ef60548f1efa6e6f8c6', (req, res) => {
+  res.sendFile(path.join(__dirname, "/loaderio-a31dbcb988035ef60548f1efa6e6f8c6.txt"));
 });
 
 // console.log(req.query); //Access URL params
