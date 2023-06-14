@@ -41,7 +41,7 @@ function cache(req, res, next) {
 
 
 
-console.log(__dirname);
+// console.log(__dirname);
 app.get('/loaderio-2c2112bc6c6f4d2db91ff91dbc6aeb06', (req, res) => {
   res.sendFile(path.join(__dirname, "/loaderio-2c2112bc6c6f4d2db91ff91dbc6aeb06.txt"));
   }
