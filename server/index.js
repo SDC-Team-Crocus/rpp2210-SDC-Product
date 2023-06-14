@@ -23,7 +23,7 @@ const client = redis.createClient({
 function cache(req, res, next) {
   const key = "__express__" + req.originalUrl || req.url;
 
-  console.log(key);
+  
   client.get(key).then(reply => {    
     if (reply) {
       res.send(JSON.parse(reply));
@@ -87,7 +87,7 @@ app.get('/products', (req, res) => {
 // });
 
 app.get('/product', (req, res) => {
-  console.log("req.query.product_id===> ", req.query.product_id);
+  // console.log("req.query.product_id===> ", req.query.product_id);
   getStyles(parseInt(req.query.product_id))
   .then(data => {
     if (data && data.rows && data.rows.length > 0) {
