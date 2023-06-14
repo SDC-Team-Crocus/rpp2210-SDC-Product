@@ -93,12 +93,12 @@ app.get('/product', (req, res) => {
     if (data && data.rows && data.rows.length > 0) {
     res.status(200).send(data.rows[0])
     } else {
-      res.sendStatus(404);
+      res.sendStatus(204);
     }
   })
   .catch((err) => {
-    // res.sendStatus(404)
-    res.status(200).send('empty');
+    res.sendStatus(404)
+    // res.status(204).send('empty');
   });
 });
 
