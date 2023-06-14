@@ -7,6 +7,16 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+
+
+// console.log(__dirname);
+app.get('/loaderio-cdd2290388a433d47e0813a650dea16c', (req, res) => {
+  res.sendFile(path.join(__dirname, "/loaderio-cdd2290388a433d47e0813a650dea16c.txt"));
+  }
+)
+
+
+
 app.use(cache);
 
 
@@ -41,11 +51,6 @@ function cache(req, res, next) {
 
 
 
-// console.log(__dirname);
-app.get('/loaderio-cdd2290388a433d47e0813a650dea16c', (req, res) => {
-  res.sendFile(path.join(__dirname, "/loaderio-cdd2290388a433d47e0813a650dea16c.txt"));
-  }
-)
 
 // console.log(req.query); //Access URL params
 // console.log(req.body.params); //Access body params
