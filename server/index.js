@@ -59,7 +59,7 @@ app.get('/loaderio-a31dbcb988035ef60548f1efa6e6f8c6', (req, res) => {
 // Retrieves the list of products.
 // Params: page, count
 app.get('/products', (req, res) => {
-  getProducts(parseInt(req.query.count), parseInt(req.query.page))
+  getProducts(parseInt(req.query.count), parseInt(req.query.page), parseInt(req.query.product_id))
   .then(data => {
     // let returnedData = {product_id: req.query.product_id, results: data}
     res.status(200).send(data.rows)
@@ -88,7 +88,7 @@ app.get('/products', (req, res) => {
 
 app.get('/product', (req, res) => {
   // console.log("req.query.product_id===> ", req.query.product_id);
-  getStyles(parseInt(req.query.product_id))
+  getProduct(parseInt(req.query.product_id))///////////////////////////HERE
   .then(data => {
     if (data && data.rows && data.rows.length > 0) {
     res.status(200).send(data.rows[0])

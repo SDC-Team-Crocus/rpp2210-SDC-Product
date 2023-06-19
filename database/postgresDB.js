@@ -18,7 +18,7 @@ pool.connect();
 // GET /products 
 // Retrieves the list of products.
 // Params: page, count
-async function getProducts(count, page) {///////////why cannot set default here?
+async function getProducts(count, page, product_id) {///////////why cannot set default here?
   if (!count) {
     count = 5;
   }
@@ -27,10 +27,20 @@ async function getProducts(count, page) {///////////why cannot set default here?
   }
   
   const offset = (page - 1) * count;
-  const query = `SELECT * FROM products LIMIT $1 OFFSET $2`;
-  const productsData = await pool.query(query, [count, offset]);
-  // console.log("productsData===> ", productsData);
-  return productsData;
+  
+  console.log("product_id===> ", product_id);
+  if(!product_id) {
+    const query = `SELECT * FROM products LIMIT $1 OFFSET $2`;
+    const productsData = await pool.query(query, [count, offset]);
+    // console.log("productsData===> ", productsData);
+    return productsData;
+  } else {
+    const query = `SELECT * FROM products WHERE id = $1`;////////////add JOIN here to made data look like atelier front end 
+    const productData = await pool.query(query, [product_id]);
+    // console.log("productData===> ", productData);
+    return productData;
+  }
+  
 };
 
 // Product Information
@@ -39,7 +49,7 @@ async function getProducts(count, page) {///////////why cannot set default here?
 // Params: product_id
 async function getProduct(product_id) {
   
-  const query = `SELECT * FROM products WHERE id = $1`;
+  const query = `SELECT * FROM products WHERE id = $1`;////////////add JOIN here to made data look like atelier front end 
   const productData = await pool.query(query, [product_id]);
   // console.log("productData===> ", productData);
   return productData;
