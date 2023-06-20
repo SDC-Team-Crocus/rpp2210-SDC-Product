@@ -28,7 +28,7 @@ async function getProducts(count, page, product_id) {///////////why cannot set d
   
   const offset = (page - 1) * count;
   
-  console.log("product_id===> ", product_id);
+  // console.log("product_id===> ", product_id);
   if(!product_id) {
     const query = `SELECT * FROM products LIMIT $1 OFFSET $2`;
     const productsData = await pool.query(query, [count, offset]);
