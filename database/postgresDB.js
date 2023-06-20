@@ -48,7 +48,7 @@ async function getProducts(count, page, product_id) {///////////why cannot set d
 FROM
   products p
 JOIN
-  features f ON p.id = f.productid
+  features f ON p.id = f.productId
 WHERE
   p.id = $1
 GROUP BY

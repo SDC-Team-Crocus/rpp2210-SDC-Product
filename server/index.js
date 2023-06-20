@@ -2,46 +2,47 @@ const express = require('express');
 const path = require('path');
 const port = 3001;
 const { getProducts, getProduct, getStyles, getRelated } = require('../database/postgresDB');
-// const redis = require('redis');
+const redis = require('redis');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
-// app.use(cache);
+app.use(cache);
 
 
 // Create a Redis client
 
-// const client = redis.createClient({
-//   host: "127.0.0.1",
-//   port: 6379,
-//   // legacyMode: true,
-// });
+const client = redis.createClient({
+  host: "127.0.0.1",
+  port: 6379,
+  // legacyMode: true,
+});
 
 
 
-// function cache(req, res, next) {
-//   const key = "__express__" + req.originalUrl || req.url;
+function cache(req, res, next) {
+  const key = "__express__" + req.originalUrl || req.url;
 
   
-//   client.get(key).then(reply => {    
-//     if (reply) {
-//       res.send(JSON.parse(reply));
-//     } else {
-//       res.sendResponse = res.send;
-//       res.send = (body) => {
-//         //expire in 1 min
-//         // console.log('body====> ', body);
-//         client.set(key, JSON.stringify(body), {'EX':60});
-//         res.sendResponse(body);
-//       };
-//       next();
-//     }
-//   }).catch(err=>{
-//     console.log(err);
-//     res.status(500).send(err)
-//   });
-// }
+  client.get(key).then(reply => {    
+    if (reply) {
+      res.send(reply);
+    } else {
+      res.sendResponse = res.send;
+      res.send = (body) => {
+        //expire in 1 min
+        // console.log('body====> ', body);
+        
+        client.set(key, JSON.stringify(body), {'EX':60});
+        res.sendResponse(body);
+      };
+      next();
+    }
+  }).catch(err=>{
+    console.log(err);
+    res.status(500).send(err)
+  });
+}
 
 
 
@@ -136,9 +137,9 @@ app.get('/related', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
-  // client.connect().then(()=> {
-  //   console.log('redis is connected')
-  // })
+  client.connect().then(()=> {
+    console.log('redis is connected')
+  })
 });
 
 module.exports = app;
