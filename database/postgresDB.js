@@ -18,7 +18,7 @@ pool.connect();
 // GET /products 
 // Retrieves the list of products.
 // Params: page, count
-async function getProducts(count, page, product_id) {///////////why cannot set default here?
+async function getProducts(count, page, product_id) {
   if (!count) {
     count = 5;
   }
@@ -35,25 +35,23 @@ async function getProducts(count, page, product_id) {///////////why cannot set d
     // console.log("productsData===> ", productsData);
     return productsData;
   } else {
-    // const query = `SELECT * FROM products WHERE id = $1`;////////////add JOIN here to made data look like atelier front end 
-    
     const query = `SELECT
-  p.id,
-  p.name,
-  p.slogan,
-  p.description,
-  p.category,
-  p.default_price,
-  json_agg(json_build_object('feature', f.feature, 'value', f.value)) AS features
-FROM
-  products p
-JOIN
-  features f ON p.id = f.productId
-WHERE
-  p.id = $1
-GROUP BY
-  p.id, p.name, p.slogan, p.description, p.category, p.default_price;
-`
+      p.id,
+      p.name,
+      p.slogan,
+      p.description,
+      p.category,
+      p.default_price,
+      json_agg(json_build_object('feature', f.feature, 'value', f.value)) AS features
+    FROM
+      products p
+    JOIN
+      features f ON p.id = f.productId
+    WHERE
+      p.id = $1
+    GROUP BY
+      p.id, p.name, p.slogan, p.description, p.category, p.default_price;
+    `
     
     
     const productData = await pool.query(query, [product_id]);
