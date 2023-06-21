@@ -33,7 +33,7 @@ function cache(req, res, next) {
         //expire in 1 min
         // console.log('body====> ', body);
         
-        client.set(key, JSON.stringify(body), {'EX':60});
+        client.set(key, JSON.stringify(body), {'EX':6000});
         res.sendResponse(body);
       };
       next();
